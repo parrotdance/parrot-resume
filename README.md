@@ -1,4 +1,6 @@
 # parrot-resume
+A simple tool for parse Markdown text to HTML content. It may be useful for making resume?
+Whatever, I like Markdown more than MS Word XD
 
 ## Project setup
 ```
@@ -10,25 +12,12 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Compiles and minifies for production (do not do this)
 ```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
+npm run build 
 ```
 
-### Lints and fixes files
+### Run your tests (no test yet)
 ```
-npm run lint
+npm run test 
 ```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

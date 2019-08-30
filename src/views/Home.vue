@@ -8,12 +8,15 @@
       @input="onMarkdownInput"
       @keydown.tab.prevent="onTab"
     />
-    <div class="preview" v-html="result"></div>
+    <div id="result" class="preview" v-html="result"></div>
   </div>
 </template>
 
 <script>
   import MarkdownIt from 'markdown-it';
+  import element2pdf from '@/utils/pdfParser';
+  import { EventBus } from '@/plugins/eventbus';
+
   const MD = new MarkdownIt();
 
   export default {
@@ -28,6 +31,12 @@
       placeholder() {
         return this.markdown ? '' : '在这里写 Markdown';
       }
+    },
+    mounted() {
+      EventBus.$on('EXPORT_PDF_FILE', this.exportPdfFile);
+    },
+    beforeDestroy() {
+      EventBus.$off('EXPORT_PDF_FILE');
     },
     methods: {
       onTab(e) {
@@ -45,6 +54,10 @@
           this.result = MD.render(this.markdown);
           this.canParse = true;
         }, 500);
+      },
+      exportPdfFile() {
+        const target = document.getElementById('result');
+        element2pdf(target, 'a4', 'resume.pdf');
       }
     }
   };
@@ -55,7 +68,6 @@
     height: 100%;
     justify-content: space-evenly;
     align-items: center;
-    background-color: #201f21;
   }
   .input,
   .preview {

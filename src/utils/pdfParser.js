@@ -1,5 +1,6 @@
 import html2canvas from 'html2canvas';
 import JSPDF from 'jspdf';
+import '@/assets/css/markdown.css';
 
 const paper = {
   'a4': { width: 595.28, height: 841.89 }
@@ -13,6 +14,7 @@ const paper = {
  */
 function getResultBoard(el, paperSize) {
   const wrapper = document.createElement('div');
+  wrapper.id = 'markdown-preview'; // 样式挂载点
   wrapper.style.width = paper[paperSize].width + 'px';
   wrapper.style.height = paper[paperSize].height + 'px';
   for(const item of el.children) {

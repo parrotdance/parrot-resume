@@ -3,28 +3,45 @@
     <div class="operator-wrapper">
       <button class="operator" @click="exportFile">导出</button>
     </div>
-    <div class="switch" @click="toggleSidebar">
-      <i class="icon el-icon-caret-right"></i>
+    <div
+      :class="['switch', { hover: hoverSwitch }]"
+      @click="toggleSidebar"
+      ref="switch"
+      @mouseover="mouseOverSwitch"
+      @mouseleave="hoverSwitch = false"
+    >
+      <arrow-icon class="icon" size="14" />
     </div>
   </div>
 </template>
 <script>
-import { EventBus } from '@/plugins/eventbus.js'
-export default {
-  data() {
-    return {
-      expand: true
-    }
-  },
-  methods: {
-    exportFile() {
-      EventBus.$emit('EXPORT_PDF_FILE')
+  import { EventBus } from "@/plugins/eventbus.js";
+  import ArrowIcon from "@/components/arrow.vue";
+
+  export default {
+    components: {
+      ArrowIcon
     },
-    toggleSidebar() {
-      this.expand = !this.expand;
+    data() {
+      return {
+        expand: true,
+        hoverSwitch: false
+      };
+    },
+    methods: {
+      mouseOverSwitch() {
+        if (this.expand) {
+          this.hoverSwitch = true;
+        }
+      },
+      exportFile() {
+        EventBus.$emit("EXPORT_PDF_FILE");
+      },
+      toggleSidebar() {
+        this.expand = !this.expand;
+      }
     }
-  }
-}
+  };
 </script>
 <style scoped>
   .sidebar {
@@ -32,7 +49,7 @@ export default {
     align-items: stretch;
     background-color: white;
     box-shadow: 0 0 8px white;
-    transition: flex-basis .2s ease;
+    transition: flex-basis 0.2s ease;
   }
   .operator-wrapper {
     display: flex;
@@ -51,7 +68,7 @@ export default {
     border-bottom: 1px solid black;
     outline: none;
     cursor: pointer;
-    transition: all .2s ease;
+    transition: all 0.2s ease;
   }
   .operator:hover {
     background-color: #cccccc;
@@ -61,19 +78,23 @@ export default {
     top: 50%;
     right: -16px;
     transform: translateY(-50%);
-    display: inline-block;
+    display: flex;
     width: 16px;
     height: 88px;
+    justify-content: center;
+    align-items: center;
     border-radius: 0 4px 4px 0;
     box-sizing: 0 0 8px white;
     background-color: white;
     cursor: pointer;
     color: white;
     z-index: 1;
+    transition: transform 0.2s ease;
   }
   .switch .icon {
-    padding: 35px 0;
-    font-size: 18px;
-    color: #666666;
+    transition: transform 0.2s ease;
+  }
+  .switch.hover .icon {
+    transform: rotate(180deg);
   }
 </style>

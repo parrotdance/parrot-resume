@@ -1,15 +1,18 @@
 <template>
   <div id="app">
     <sidebar class="sidebar" />
-    <router-view class="body" />
+    <!-- <router-view class="body" /> -->
+    <home class="body" />
   </div>
 </template>
 <script>
 import Sidebar from './views/Sidebar.vue'
+import Home from './views/Home.vue'
 
 export default {
   components: {
-    Sidebar
+    Sidebar,
+    Home
   }
 }
 </script>

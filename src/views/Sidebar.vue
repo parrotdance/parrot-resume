@@ -1,7 +1,8 @@
 <template>
   <div class="sidebar" :style="{'flex-basis': expand ? '300px' : '0'}">
     <div class="operator-wrapper">
-      <button class="operator" @click="exportFile">导出</button>
+      <button class="operator" @click="exportFile2md">导出为 Markdown</button>
+      <button class="operator" @click="exportFile2pdf">导出为 PDF</button>
     </div>
     <div
       :class="['switch', { hover: hoverSwitch }]"
@@ -34,7 +35,10 @@
           this.hoverSwitch = true;
         }
       },
-      exportFile() {
+      exportFile2md() {
+        EventBus.$emit("EXPORT_MD_FILE");
+      },
+      exportFile2pdf() {
         EventBus.$emit("EXPORT_PDF_FILE");
       },
       toggleSidebar() {
@@ -56,22 +60,28 @@
     height: 100%;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     overflow: hidden;
     z-index: 2;
   }
   .operator {
+    margin: 10px 0;
+    width: 220px;
     font-size: 18px;
     line-height: 48px;
     border: none;
     white-space: nowrap;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+    border: 1px solid transparent;
+    color: #999999;
+    border-radius: 8px;
     outline: none;
     cursor: pointer;
     transition: all 0.2s ease;
   }
   .operator:hover {
-    background-color: #cccccc;
+    box-shadow: 0 0 8px #666666;
+    background-color: #eeeeee;
+    color: black;
   }
   .switch {
     position: absolute;

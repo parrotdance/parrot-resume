@@ -14,6 +14,7 @@
 
 <script>
   import MarkdownIt from 'markdown-it';
+  import content2md from '@/utils/mdParser';
   import element2pdf from '@/utils/pdfParser';
   import { EventBus } from '@/plugins/eventbus';
 
@@ -33,6 +34,7 @@
       }
     },
     mounted() {
+      EventBus.$on('EXPORT_MD_FILE', this.exportMdFile);
       EventBus.$on('EXPORT_PDF_FILE', this.exportPdfFile);
     },
     beforeDestroy() {
@@ -54,6 +56,9 @@
           this.result = MD.render(this.markdown);
           this.canParse = true;
         }, 500);
+      },
+      exportMdFile() {
+        content2md(this.markdown, 'file.md');
       },
       exportPdfFile() {
         const target = document.getElementById('result');

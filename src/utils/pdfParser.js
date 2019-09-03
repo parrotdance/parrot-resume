@@ -7,7 +7,7 @@ const paper = {
 };
 
 /**
- * @desc 将 markdown 解析的 HTML 节点克隆到一个标准尺寸的 div 元素挂载到屏幕外侧
+ * @desc 将 markdown 解析的 HTML 节点克隆到一个标准尺寸的 div 元素挂载到屏幕外侧, 然后渲染为 canvas, 导出为 PDF 
  * @param el 要渲染为 canvas 的元素
  * @param paperSize 纸张大小
  * @return HTMLDivElement

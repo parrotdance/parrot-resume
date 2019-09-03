@@ -13,7 +13,6 @@ module.exports = {
 					.plugin('uglifyJsPlugin')
 					.use(UglifyJsPlugin, [{
 						parallel: true,
-						extractComments: true
 					}])
 				config.optimization.splitChunks({
 					chunks: 'all',
@@ -28,9 +27,12 @@ module.exports = {
 						}
 					}
 				})
-				// config
-				// 	.plugin('bundleAnalyzer')
-				// 	.use(BundleAnalyzerPlugin)
+			})
+		config
+			.when(process.env.NODE_ENV === 'analyze', config => {
+				config
+				.plugin('bundleAnalyzer')
+				.use(BundleAnalyzerPlugin)
 			})
 	}
 };

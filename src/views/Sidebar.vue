@@ -77,6 +77,7 @@
     line-height: 48px;
     border: none;
     white-space: nowrap;
+    background-color: white;
     border: 1px solid transparent;
     color: #0d9ac2;
     border-radius: 8px;

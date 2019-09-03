@@ -35,7 +35,11 @@
       },
     },
     mounted() {
-      this.markdown = localStorage.getItem('markdown') || '';
+      const cachedMarkdown = localStorage.getItem('markdown');
+      if (cachedMarkdown) {
+        this.markdown = cachedMarkdown;
+        this.parseMarkdown();
+      }
       EventBus.$on('EXPORT_MD_FILE', this.exportMdFile);
       EventBus.$on('EXPORT_PDF_FILE', this.exportPdfFile);
     },

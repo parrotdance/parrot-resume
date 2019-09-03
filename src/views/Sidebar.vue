@@ -1,8 +1,9 @@
 <template>
   <div class="sidebar" :style="{'flex-basis': expand ? '300px' : '0'}">
+    <logo />
     <div class="operator-wrapper">
-      <button class="operator" @click="exportFile2md">导出为 Markdown</button>
-      <button class="operator" @click="exportFile2pdf">导出为 PDF</button>
+      <button class="operator" @click="exportFile2md">Export To .md</button>
+      <button class="operator" @click="exportFile2pdf">Export To .pdf</button>
     </div>
     <div
       :class="['switch', { hover: hoverSwitch }]"
@@ -18,10 +19,12 @@
 <script>
   import { EventBus } from "@/plugins/eventbus.js";
   import ArrowIcon from "@/components/arrow.vue";
+  import Logo from "@/components/logo.vue";
 
   export default {
     components: {
-      ArrowIcon
+      ArrowIcon,
+      Logo
     },
     data() {
       return {
@@ -50,12 +53,15 @@
 <style scoped>
   .sidebar {
     position: relative;
+    display: flex;
+    flex-direction: column;
     align-items: stretch;
-    background-color: white;
+    background-color: #0d9ac2;
     box-shadow: 0 0 8px white;
-    transition: flex-basis 0.2s ease;
+    transition: flex-basis 0.4s cubic-bezier(0.95, -0.26, 0.96, 0.49);
   }
   .operator-wrapper {
+    flex: 1;
     display: flex;
     height: 100%;
     flex-direction: column;
@@ -72,16 +78,15 @@
     border: none;
     white-space: nowrap;
     border: 1px solid transparent;
-    color: #999999;
+    color: #0d9ac2;
     border-radius: 8px;
     outline: none;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
   }
   .operator:hover {
-    box-shadow: 0 0 8px #666666;
-    background-color: #eeeeee;
-    color: black;
+    box-shadow: 0 0 12px white;
+    color: #0d8ab2;
   }
   .switch {
     position: absolute;
@@ -95,7 +100,7 @@
     align-items: center;
     border-radius: 0 4px 4px 0;
     box-sizing: 0 0 8px white;
-    background-color: white;
+    background-color: #0d9ac2;
     cursor: pointer;
     color: white;
     z-index: 1;

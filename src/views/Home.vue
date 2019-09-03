@@ -76,6 +76,7 @@
     height: 100%;
     justify-content: space-evenly;
     align-items: center;
+    background-color: #333333;
   }
   .input,
   .preview {

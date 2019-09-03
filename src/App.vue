@@ -2,7 +2,7 @@
   <div id="app">
     <sidebar class="sidebar" />
     <!-- <router-view class="body" /> -->
-    <home class="body" />
+    <home class="main" />
   </div>
 </template>
 <script>
@@ -31,7 +31,7 @@ export default {
   flex: 0 0 300px;
   width: 0;
 }
-#app .body {
+#app .main {
   flex: 1;
   width: 0;
 }
@@ -40,6 +40,5 @@ export default {
 }
 body {
   margin: 0;
-  background-color: #201f21;
 }
 </style>

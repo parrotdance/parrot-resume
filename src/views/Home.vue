@@ -32,9 +32,10 @@
     computed: {
       placeholder() {
         return this.markdown ? '' : '在这里写 Markdown';
-      }
+      },
     },
     mounted() {
+      this.markdown = localStorage.getItem('markdown') || '';
       EventBus.$on('EXPORT_MD_FILE', this.exportMdFile);
       EventBus.$on('EXPORT_PDF_FILE', this.exportPdfFile);
     },
@@ -55,6 +56,7 @@
         this.canParse = false;
         setTimeout(() => {
           this.result = MD.render(this.markdown);
+          localStorage.setItem('markdown', this.markdown);
           this.canParse = true;
         }, 500);
       },

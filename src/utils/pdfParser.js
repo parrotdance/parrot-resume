@@ -14,7 +14,7 @@ const paper = {
  */
 function getResultBoard(el, paperSize) {
   const wrapper = document.createElement('div');
-  wrapper.id = 'markdown-preview'; // 样式挂载点
+  wrapper.classList.add('markdown-preview'); // 样式挂载点
   wrapper.style.width = paper[paperSize].width + 'px';
   wrapper.style.height = paper[paperSize].height + 'px';
   for(const item of el.children) {
@@ -22,7 +22,6 @@ function getResultBoard(el, paperSize) {
   }
   wrapper.style.position = 'fixed';
   wrapper.style.left = '0';
-  wrapper.style.top = 2 * wrapper.style.height;
   wrapper.style.padding = '12px 24px';
   document.body.appendChild(wrapper);
   wrapper.done = () => document.body.removeChild(wrapper);

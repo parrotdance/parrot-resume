@@ -1,15 +1,14 @@
 <template>
   <div class="home">
     <textarea
-      id="markdown-input"
-      class="input"
+      class="markdown-input"
       v-model="markdown"
       placeholder="在这里输入 markdown"
       spellcheck="false"
       @input="onMarkdownInput"
       @keydown.tab.prevent="onTab"
     />
-    <div id="markdown-preview" class="preview" v-html="result"></div>
+    <div ref="preview" class="markdown-preview" v-html="result"></div>
   </div>
 </template>
 
@@ -68,7 +67,7 @@
         content2md(this.markdown, 'file.md');
       },
       exportPdfFile() {
-        const target = document.getElementById('markdown-preview');
+        const target = this.$refs.preview;
         element2pdf(target, 'a4', 'resume.pdf');
       }
     }
@@ -82,8 +81,8 @@
     align-items: center;
     background-color: #333333;
   }
-  .input,
-  .preview {
+  .markdown-input,
+  .markdown-preview {
     flex: 0 0 44%;
     width: 0;
     margin: 24px 1%;
@@ -95,7 +94,7 @@
     box-shadow: 0 0 8px white;
     overflow: scroll;
   }
-  .input {
+  .markdown-input {
     border: none;
     font-size: 14px;
     line-height: 2;

@@ -1,16 +1,16 @@
-  #markdown-preview h1,
-  #markdown-preview h2 {
+  .markdown-preview h1,
+  .markdown-preview h2 {
     padding-bottom: 0.3em;
     border-bottom: 1px solid #eaeaea;
   }
-  #markdown-preview blockquote {
+  .markdown-preview blockquote {
     border-left: 4px solid #cccccc;
     margin: 0;
     padding-left: 8px;
     line-height: 2;
     color: #7f8fa4;
   }
-  #markdown-preview code {
+  .markdown-preview code {
     padding: 2px 4px;
     color: #c0341d;
     background-color: #fbe5e1;

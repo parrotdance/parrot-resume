@@ -15,6 +15,7 @@
 <script>
   import MarkdownIt from 'markdown-it';
   import content2md from '@/utils/mdParser';
+  import getMdFileContent from '@/utils/mdReader';
   import element2pdf from '@/utils/pdfParser';
   import { EventBus } from '@/plugins/eventbus';
 
@@ -39,6 +40,7 @@
         this.markdown = cachedMarkdown;
         this.parseMarkdown();
       }
+      EventBus.$on('IMPORT_MD_FILE', this.importMdFile);
       EventBus.$on('EXPORT_MD_FILE', this.exportMdFile);
       EventBus.$on('EXPORT_PDF_FILE', this.exportPdfFile);
     },
@@ -62,6 +64,10 @@
           localStorage.setItem('markdown', this.markdown);
           this.canParse = true;
         }, 500);
+      },
+      async importMdFile() {
+        this.markdown = await getMdFileContent();
+        this.parseMarkdown();
       },
       exportMdFile() {
         content2md(this.markdown, 'file.md');

@@ -2,8 +2,9 @@
   <div class="sidebar" :style="{'flex-basis': expand ? '300px' : '0'}">
     <logo />
     <div class="operator-wrapper">
-      <button class="operator" @click="exportFile2md">Export To .md</button>
-      <button class="operator" @click="exportFile2pdf">Export To .pdf</button>
+      <button class="operator" @click="dispatchEvent('IMPORT_MD_FILE')">Import .md File</button>
+      <button class="operator" @click="dispatchEvent('EXPORT_MD_FILE')">Export To .md</button>
+      <button class="operator" @click="dispatchEvent('EXPORT_PDF_FILE')">Export To .pdf</button>
     </div>
     <div
       :class="['switch', { hover: hoverSwitch }]"
@@ -38,11 +39,8 @@
           this.hoverSwitch = true;
         }
       },
-      exportFile2md() {
-        EventBus.$emit("EXPORT_MD_FILE");
-      },
-      exportFile2pdf() {
-        EventBus.$emit("EXPORT_PDF_FILE");
+      dispatchEvent(eventToken) {
+        EventBus.$emit(eventToken);
       },
       toggleSidebar() {
         this.expand = !this.expand;

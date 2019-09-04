@@ -21,3 +21,7 @@ npm run build
 ```
 npm run test 
 ```
+### TODO:
+- [ ] Sync scrolling
+- [ ] Optional preview content theme
+- [ ] Markdown syntax template

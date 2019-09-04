@@ -2,6 +2,14 @@
 A simple tool for parse Markdown text to HTML content. It may be useful for making resume?
 Whatever, I like Markdown more than MS Word XD
 
+> Online version: [ParroT-Resume](http://resume.parrotdance.art)
+
+### TODO:
+- Synchronize scrolling
+- Optional preview content theme
+- ✅ Markdown syntax template
+- Custom color picker for input and review field
+
 ## Project setup
 ```
 npm install
@@ -12,16 +20,7 @@ npm install
 npm run serve
 ```
 
-### Compiles and minifies for production (do not do this)
+### Compiles and minifies for production
 ```
 npm run build 
 ```
-
-### Run your tests (no test yet)
-```
-npm run test 
-```
-### TODO:
-- [ ] Sync scrolling
-- [ ] Optional preview content theme
-- [ ] Markdown syntax template

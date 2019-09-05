@@ -5,10 +5,11 @@ Whatever, I like Markdown more than MS Word XD
 > Online version: [ParroT-Resume](http://resume.parrotdance.art)
 
 ### TODO:
-- Synchronize scrolling
+- ✅ Synchronize scrolling
 - Optional preview content theme
 - ✅ Markdown syntax template
 - Custom color picker for input and review field
+- Zen mode / Preview mode
 
 ## Project setup
 ```

@@ -18,23 +18,30 @@
         @focus="onInputFocus"
         @blur="onInputBlur"
         @keydown.tab.prevent="insertTemplate('    ')"
+        @scroll="onInputScroll"
+        @mouseenter="mouseIn = 'input'"
       />
     </div>
     <div class="field-wrapper">
-    <div ref="preview" class="markdown-preview" v-html="result"></div>
-      </div>
+      <div 
+        class="markdown-preview" 
+        ref="preview" 
+        v-html="result"
+        @scroll="onPreviewScroll"
+        @mouseenter="mouseIn = 'preview'" />
+    </div>
   </div>
 </template>
 
 <script>
-  import MarkdownIt from 'markdown-it';
+  import { throttle } from '@/utils/index';
   import { markdownTemplateList } from '@/utils/markdownTemplate';
-  import content2md from '@/utils/mdParser';
+  import { mdDownloader, mdParser } from '@/utils/mdParser';
   import getMdFileContent from '@/utils/mdReader';
   import element2pdf from '@/utils/pdfParser';
   import { EventBus } from '@/plugins/eventbus';
 
-  const MD = new MarkdownIt();
+  const INPUT_LINEHEIGHT = 28;
 
   export default {
     data() {
@@ -44,7 +51,8 @@
         canParse: true,
         showInputTool: false,
         leaveFocusTimeout: null,
-        templateList: markdownTemplateList
+        templateList: markdownTemplateList,
+        mouseIn: 'input'
       };
     },
     computed: {
@@ -79,6 +87,29 @@
           this.showInputTool = false;          
         }, 500);
       },
+      onInputScroll: throttle(function() {
+        if (this.mouseIn === 'input') {
+          const targetLine = Math.floor(this.$refs.input.scrollTop / INPUT_LINEHEIGHT);
+          for (const item of this.$refs.preview.children) {
+            if (Math.abs(targetLine - item.dataset.line) < 3) {
+              this.$refs.preview.scrollTop = item.offsetTop;
+              // item.scrollIntoView();
+              break;
+            }
+          }
+        }
+      }),
+      onPreviewScroll: throttle(function() {
+        if (this.mouseIn === 'preview') {
+          const currentPos = this.$refs.preview.scrollTop;
+          for (const item of this.$refs.preview.children) {
+            if (currentPos > item.offsetTop && currentPos < item.offsetTop + item.offsetHeight) {
+              this.$refs.input.scrollTop = item.dataset.line * INPUT_LINEHEIGHT - 1;
+              break;
+            }
+          }
+        }
+      }),
       insertTemplate(template) {
         const startPos = this.$refs.input.selectionStart;
         const EndPos = this.$refs.input.selectionEnd;
@@ -101,15 +132,11 @@
         this.markdown = e.target.value;
         this.parseMarkdown();
       },
-      parseMarkdown() {
-        if (!this.canParse) return;
-        this.canParse = false;
-        setTimeout(() => {
-          this.result = MD.render(this.markdown);
-          localStorage.setItem('markdown', this.markdown);
-          this.canParse = true;
-        }, 500);
-      },
+      parseMarkdown: throttle(function() {
+        this.result = mdParser.render(this.markdown);
+        localStorage.setItem('markdown', this.markdown);
+        this.canParse = true;
+      }, 500),
       async importMdFile() {
         this.markdown = await getMdFileContent();
         this.parseMarkdown();
@@ -151,6 +178,7 @@
     border-radius: 4px;
     outline: none;
     overflow: scroll;
+    scroll-behavior: smooth;
   }
   .markdown-input {
     border: none;

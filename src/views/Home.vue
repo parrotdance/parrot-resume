@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="field-wrapper">
+    <div class="field-wrapper" :style="{ 'flex-basis': fieldWidth[0] }">
       <div :class="['markdown-input__tools', { show: showInputTool }]">
         <button 
           v-for="tool in templateList" 
@@ -22,13 +22,16 @@
         @mouseenter="mouseIn = 'input'"
       />
     </div>
-    <div class="field-wrapper">
-      <div 
-        class="markdown-preview" 
-        ref="preview" 
-        v-html="result"
-        @scroll="onPreviewScroll"
-        @mouseenter="mouseIn = 'preview'" />
+    <mode-switch :current-mode="mode" @change="onFocusModeChange" />
+    <div class="field-wrapper" :style="{ 'flex-basis': fieldWidth[1] }">
+      <div class="markdown-preview" >
+        <div 
+          class="markdown-preview__content"
+          v-html="result"
+          ref="preview" 
+          @scroll="onPreviewScroll"
+          @mouseenter="mouseIn = 'preview'"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,10 +43,14 @@
   import getMdFileContent from '@/utils/mdReader';
   import element2pdf from '@/utils/pdfParser';
   import { EventBus } from '@/plugins/eventbus';
+  import ModeSwitch from '@/components/ModeSwitch.vue';
 
   const INPUT_LINEHEIGHT = 28;
 
   export default {
+    components: {
+      ModeSwitch
+    },
     data() {
       return {
         markdown: '',
@@ -52,13 +59,24 @@
         showInputTool: false,
         leaveFocusTimeout: null,
         templateList: markdownTemplateList,
-        mouseIn: 'input'
+        mouseIn: 'input',
+        mode: 'normal'
       };
     },
     computed: {
       placeholder() {
         return this.markdown ? '' : '在这里写 Markdown';
       },
+      fieldWidth() {
+        switch(this.mode) {
+          case 'normal':
+            return ['44%', '44%'];
+          case 'zen':
+            return ['60%', '0'];
+          case 'preview':
+            return ['0', '60%'];
+        }
+      }
     },
     mounted() {
       const cachedMarkdown = localStorage.getItem('markdown');
@@ -88,19 +106,18 @@
         }, 500);
       },
       onInputScroll: throttle(function() {
-        if (this.mouseIn === 'input') {
+        if (this.mode === 'normal' && this.mouseIn === 'input') {
           const targetLine = Math.floor(this.$refs.input.scrollTop / INPUT_LINEHEIGHT);
           for (const item of this.$refs.preview.children) {
             if (Math.abs(targetLine - item.dataset.line) < 3) {
               this.$refs.preview.scrollTop = item.offsetTop;
-              // item.scrollIntoView();
               break;
             }
           }
         }
       }),
       onPreviewScroll: throttle(function() {
-        if (this.mouseIn === 'preview') {
+        if (this.mode === 'normal' && this.mouseIn === 'preview') {
           const currentPos = this.$refs.preview.scrollTop;
           for (const item of this.$refs.preview.children) {
             if (currentPos > item.offsetTop && currentPos < item.offsetTop + item.offsetHeight) {
@@ -110,6 +127,16 @@
           }
         }
       }),
+      onFocusModeChange(mode) {
+        const markdownBak = this.markdown;
+        this.markdown = '';
+        this.result = ''; // 清空内容再变更 mode, 去除重排计算导致的动画卡顿
+        this.mode = mode;
+        setTimeout(() => {
+          this.markdown = markdownBak;
+          this.parseMarkdown();
+        }, 300);
+      },
       insertTemplate(template) {
         const startPos = this.$refs.input.selectionStart;
         const EndPos = this.$refs.input.selectionEnd;
@@ -155,17 +182,20 @@
   .home {
     display: flex;
     height: 100%;
-    justify-content: space-evenly;
+    justify-content: center;
     align-items: center;
     background-color: #333333;
   }
   .field-wrapper {
     position: relative;
-    flex: 0 0 44%;
+    flex-grow: 0;
+    flex-shrink: 0;
     width: 0;
     margin: 24px 1%;
     height: 80%;
     border-radius: 4px;
+    transition: flex-basis .3s ease;
+    overflow: hidden;
   }
   .markdown-input,
   .markdown-preview {
@@ -174,13 +204,18 @@
     width: 100%;
     height: 100%;
     background-color: white;
-    padding: 12px 24px;
     border-radius: 4px;
     outline: none;
-    overflow: scroll;
+  }
+  .markdown-preview__content {
+    width: 100%;
+    height: 100%;
+    padding: 12px 24px;
     scroll-behavior: smooth;
+    overflow: scroll;
   }
   .markdown-input {
+    padding: 12px 24px;
     border: none;
     font-size: 14px;
     line-height: 2;

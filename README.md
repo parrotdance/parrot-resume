@@ -9,7 +9,7 @@ Whatever, I like Markdown more than MS Word XD
 - Optional preview content theme
 - ✅ Markdown syntax template
 - Custom color picker for input and review field
-- Zen mode / Preview mode
+- ✅ Zen mode / Preview mode
 
 ## Project setup
 ```

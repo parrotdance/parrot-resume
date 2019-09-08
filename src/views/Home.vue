@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="field-wrapper" :style="{ 'flex-basis': fieldWidth[0] }">
+    <div class="field-wrapper" :style="{'flex-basis': fieldWidth[0], 'overflow': mode === 'preview' ? 'hidden' : 'visible' }">
       <div :class="['markdown-input__tools', { show: showInputTool }]">
         <button 
           v-for="tool in templateList" 

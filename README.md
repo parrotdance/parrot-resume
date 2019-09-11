@@ -10,6 +10,7 @@ Whatever, I like Markdown more than MS Word XD
 - ✅ Markdown syntax template
 - Custom color picker for input and review field
 - ✅ Zen mode / Preview mode
+- PWA support
 
 ## Project setup
 ```

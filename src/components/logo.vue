@@ -99,5 +99,6 @@ export default {
   font-size: 18px;
   font-weight: 700;
   color: white;
+  user-select: none;
 }
 </style>

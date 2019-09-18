@@ -5,6 +5,7 @@
       <button class="operator" @click="dispatchEvent('IMPORT_MD_FILE')">Import .md File</button>
       <button class="operator" @click="dispatchEvent('EXPORT_MD_FILE')">Export To .md</button>
       <button class="operator" @click="dispatchEvent('EXPORT_PDF_FILE')">Export To .pdf</button>
+      <button class="operator" @click="expandAboutPanel">About</button>
     </div>
     <div
       :class="['switch', { hover: hoverSwitch }]"
@@ -15,22 +16,26 @@
     >
       <arrow-icon class="icon" size="14" />
     </div>
+    <about class="panel__about" :show.sync="isAboutShow" />
   </div>
 </template>
 <script>
   import { EventBus } from "@/plugins/eventbus.js";
   import ArrowIcon from "@/components/arrow.vue";
   import Logo from "@/components/logo.vue";
+  import About from "@/components/about.vue";
 
   export default {
     components: {
       ArrowIcon,
-      Logo
+      Logo,
+      About
     },
     data() {
       return {
         expand: true,
-        hoverSwitch: false
+        hoverSwitch: false,
+        isAboutShow: false
       };
     },
     methods: {
@@ -44,6 +49,9 @@
       },
       toggleSidebar() {
         this.expand = !this.expand;
+      },
+      expandAboutPanel() {
+        this.isAboutShow = true;
       }
     }
   };

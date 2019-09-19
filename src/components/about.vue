@@ -1,6 +1,6 @@
 <template>
   <div :class="['about', { show }]" @click.stop>
-    <div class="bg" @click="closeAboutPanel"></div>
+    <div class="bg" @click="onClickMask"></div>
     <div class="desc">
       <p><strong>这是一个纯前端实现的 Markdown 编辑器, 目前处于开发阶段.</strong></p>
       <p><strong>最初的设想是成为一个基于 Markdown 语法的 PDF (简历) 生成器, 于是便有了名字 ParroT-Resume.</strong></p>
@@ -43,11 +43,15 @@ export default {
     window.removeEventListener('keydown', this.closeAboutPanel);
   },
   methods: {
-    closeAboutPanel(e) {
+    onEsc(e) {
       if (e.key === 'Escape' && this.show) {
         this.$emit('update:show', false);
         window.localStorage.setItem('new_user', '-1');
       }
+    },
+    onClickMask() {
+      this.$emit('update:show', false);
+      window.localStorage.setItem('new_user', '-1');
     }
   }
 }
